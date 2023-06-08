@@ -1,6 +1,6 @@
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { exerciseOptions, fetchData } from '../utils/fetchData'
+import { exerciseOptions, fetchData } from '../utils/fetchData';
 import HorizontalScrollbar from './HorizontalScrollbar';
 
 const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
@@ -9,26 +9,28 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
 
     useEffect(() => {
         const fetchExerciseData = async () => {
-            const bodyPartsData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', exerciseOptions)
-            setBodyParts(['all', ...bodyPartsData])
-        }
+            const bodyPartsData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', exerciseOptions);
+            setBodyParts(['all', ...bodyPartsData]);
+        };
         fetchExerciseData();
     }, [])
 
     const handleSearch = async () => {
         if (search) {
             const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
+
             const searchedExercises = exercisesData.filter(
                 (exercise) => exercise.name.toLowerCase().includes(search)
                     || exercise.target.toLowerCase().includes(search)
                     || exercise.equipment.toLowerCase().includes(search)
-                    || exercise.body.toLowerCase().includes(search),
+                    || exercise.bodyPart.toLowerCase().includes(search),
             );
-
+            
+            window.scrollTo({ top: 1800, left: 100, behavior: 'smooth' });
             setSearch('');
             setExercises(searchedExercises);
         }
-    }
+    };
 
     return (
         <Stack alignItems='center' mt="37px"
